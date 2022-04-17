@@ -1,19 +1,26 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdk 31
+    compileSdk Versions.compileSdk
 
     defaultConfig {
-        applicationId "com.freecodecloud.memo"
-        minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        applicationId AppConfig.id
+        minSdk Versions.minsdk
+        targetSdk Versions.targetsdk
+        versionCode AppConfig.versionCode
+        versionName AppConfig.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner AndroidTestDependencies.instrumentationRunner
     }
 
     buildTypes {
@@ -23,11 +30,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility Java.javaVersion
+        targetCompatibility Java.javaVersion
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = Java.javaVersion
     }
     buildFeatures {
         viewBinding true
@@ -36,13 +43,53 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // kotlin
+    implementation Dependencies.kotlin_standard_library
+    implementation Dependencies.kotlin_reflect
+    implementation Dependencies.ktx
+    implementation Dependencies.firebase_auth
+    implementation Dependencies.firebase_crashlytics
+    implementation Dependencies.firebase_analytics
+    implementation Dependencies.firebase_messaging
+
+    implementation Dependencies.navigation_runtime
+    implementation Dependencies.navigation_ui
+    implementation Dependencies.navigation_fragment
+    implementation Dependencies.navigation_dynamic
+
+    implementation Dependencies.room_runtime
+    implementation Dependencies.room_ktx
+
+    implementation Dependencies.hilt_android
+    implementation Dependencies.hilt_lifecycle
+    implementation Dependencies.livedata_ktx
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofit_gson
+
+    implementation Dependencies.glide
+    implementation Dependencies.datastore
+
+    // okhttp
+    implementation platform(Dependencies.okhttp3_platform)
+    implementation Dependencies.okhttp3_okhttp
+    implementation Dependencies.okhttp3_interceptor
+
+
+    //processor
+    kapt AnnotationProcessing.room_compiler
+    kapt AnnotationProcessing.hilt_compiler
+    kapt AnnotationProcessing.glide_compiler
+
+    //support
+    implementation SupportDependencies.appcompat
+    implementation SupportDependencies.material
+    implementation SupportDependencies.legacy_support
+    implementation SupportDependencies.constraint_layout
+
+    //testing
+    testImplementation TestDependencies.junit4
+
+    androidTestImplementation AndroidTestDependencies.junit
+    androidTestImplementation AndroidTestDependencies.espresso_core
 }
